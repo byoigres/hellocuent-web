@@ -1,0 +1,6 @@
+node_modules
+*.log
+src/public/static
+src/public/images/*.jpg
+src/views/**/*.js
+/.project

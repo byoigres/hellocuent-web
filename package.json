@@ -1,0 +1,48 @@
+{
+  "name": "hellocuent-web",
+  "version": "0.1.0",
+  "description": "Listing of translations of works to another languages",
+  "main": "index.js",
+  "scripts": {
+    "prestart": "npm run transpile-views",
+    "start": "node ./src",
+    "transpile-views": "babel ./src/views -x \".jsx\" --out-dir ./src/views",
+    "dev": "nodemon ./src",
+    "lint": "eslint src",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com:hellocuent/hellocuent-web.git"
+  },
+  "keywords": [
+    "words"
+  ],
+  "author": "Sergio Flores <byoigres@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/eloquend/eloquend-web/issues"
+  },
+  "homepage": "https://gitlab.com/eloquend/eloquend-web#README",
+  "devDependencies": {
+    "babel-cli": "^6.10.1",
+    "babel-plugin-transform-react-jsx": "^6.8.0",
+    "eslint": "^2.12.0",
+    "eslint-config-hapi": "^9.1.0",
+    "eslint-plugin-hapi": "^4.0.0",
+    "eslint-plugin-react": "^5.2.2",
+    "nodemon": "^1.9.2"
+  },
+  "dependencies": {
+    "confidence": "^3.0.0",
+    "glue": "^3.3.0",
+    "hapi-react-views": "^9.0.0",
+    "inert": "^4.0.0",
+    "node-fetch": "^1.5.3",
+    "react": "^15.1.0",
+    "react-dom": "^15.1.0",
+    "rethinkdb": "^2.3.2",
+    "vision": "^4.1.0",
+    "visionary": "^6.0.0"
+  }
+}
