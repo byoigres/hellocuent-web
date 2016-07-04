@@ -1,8 +1,28 @@
 'use strict';
 
+const Movies = require('./movies');
+
 exports.register = (server, options, next) => {
 
+    server.route(Movies);
+
     server.route([
+        {
+            method: 'GET',
+            path: '/api/models',
+            config: {
+                handler(request, reply) {
+
+                    const models = request.server.plugins['plugins/thinky-models'].models;
+
+                    return models.Translation.filter({
+                        movieId: '659850a7-4716-403e-bb68-435068bf76ab'
+                    }).getJoin({
+                        movie: true
+                    }).run().then((d) => reply(d[0]));
+                }
+            }
+        },
         {
             method: 'GET',
             path: '/api/test',
@@ -61,7 +81,10 @@ exports.register = (server, options, next) => {
                     const s = request.query.s;
                     const findMovie = request.server.plugins['plugins/omdbapi'].findMovie;
 
-                    return findMovie(s).then((json) => reply(json)).catch((err) => reply(err));
+                    return findMovie(s).then((json) => {
+
+                        return reply(json);
+                    }).catch((err) => reply(err));
                 }
             }
         }

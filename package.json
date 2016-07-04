@@ -7,6 +7,7 @@
     "prestart": "npm run transpile-views",
     "start": "node ./src",
     "transpile-views": "babel ./src/views -x \".jsx\" --out-dir ./src/views",
+    "debug": "iron-node ./src",
     "dev": "nodemon ./src",
     "lint": "eslint src",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -31,6 +32,7 @@
     "eslint-config-hapi": "^9.1.0",
     "eslint-plugin-hapi": "^4.0.0",
     "eslint-plugin-react": "^5.2.2",
+    "iron-node": "^3.0.7",
     "nodemon": "^1.9.2"
   },
   "dependencies": {
@@ -42,6 +44,7 @@
     "react": "^15.1.0",
     "react-dom": "^15.1.0",
     "rethinkdb": "^2.3.2",
+    "thinky": "^2.3.2",
     "vision": "^4.1.0",
     "visionary": "^6.0.0"
   }

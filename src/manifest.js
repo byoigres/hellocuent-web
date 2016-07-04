@@ -41,6 +41,14 @@ const manifest = {
             }
         },
         {
+            plugin: {
+                register: './plugins/thinky-models',
+                options: {
+                    host: '172.17.0.1'
+                }
+            }
+        },
+        {
             plugin: './plugins/context'
         },
         {
