@@ -15,11 +15,30 @@ exports.register = (server, options, next) => {
 
                     const models = request.server.plugins['plugins/thinky-models'].models;
 
-                    return models.Translation.filter({
-                        movieId: '659850a7-4716-403e-bb68-435068bf76ab'
-                    }).getJoin({
-                        movie: true
-                    }).run().then((d) => reply(d[0]));
+                    return models.Movie.get('94b3ad70-fe83-42c8-9b1d-739a10d2f52b')
+                        .getJoin({
+                            language: true,
+                            translations: {
+                                country: true,
+                                language: true
+                            }
+                        })
+                        .pluck([
+                            'id',
+                            'title',
+                            'year',
+                            'imdbId',
+                            'language',
+                            {
+                                translations: [
+                                    'id',
+                                    'title',
+                                    'language',
+                                    'country'
+                                ]
+                            }
+                        ])
+                        .run().then((d) => reply(d));
                 }
             }
         },

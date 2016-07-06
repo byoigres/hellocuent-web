@@ -7,12 +7,13 @@ Composer((composerErr, server) => {
         throw composerErr;
     }
 
-    server.start((serverErr) => {
+    server.start()
+        .then((serverErr) => {
 
-        if (serverErr) {
-            throw serverErr;
-        }
+            if (serverErr) {
+                throw serverErr;
+            }
 
-        console.log(`Server started at ${server.info.uri}`);
-    });
+            console.log(`Server started at ${server.info.uri}`);
+        });
 });

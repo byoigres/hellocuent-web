@@ -69,54 +69,6 @@ module.exports = [
 
                 return reply(movie);
             });
-
-            /*
-            const imdbId = request.payload.imdbId;
-
-            const findMovieByImdbId = request.server.plugins['plugins/omdbapi'].findMovieByImdbId;
-            const models = request.server.plugins['plugins/thinky-models'].models;
-
-            return findMovieByImdbId(imdbId)
-                .then((omdbData) => {
-
-                    if (omdbData === null) {
-                        return Promise.reject('imdbId not found');
-                    }
-
-                    return models.Movie.filter({
-                        imdbId: imdbId
-                    })
-                    .run()
-                    .then((movieData) => {
-
-                        if (movieData.length === 0) {
-
-                            const movie = new models.Movie({
-                                title: omdbData.title,
-                                year: omdbData.year,
-                                imdbId: imdbId
-                            });
-
-                            return movie.save().then(() => {
-
-                                return reply(movie);
-                            });
-                        }
-
-                        return reply('Movie already registered');
-                    });
-
-                    return reply(omdb);
-                })
-                .catch((err) => {
-
-                    console.log(err);
-
-                    return reply({
-                        error: 'Error registering movie'
-                    });
-                });
-            */
         }
     }
 ];
