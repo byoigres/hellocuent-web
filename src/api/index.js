@@ -1,10 +1,12 @@
 'use strict';
 
 const Movies = require('./movies');
+const Languages = require('./languages');
 
 exports.register = (server, options, next) => {
 
     server.route(Movies);
+    server.route(Languages);
 
     server.route([
         {
@@ -14,6 +16,13 @@ exports.register = (server, options, next) => {
                 handler(request, reply) {
 
                     const models = request.server.plugins['plugins/thinky-models'].models;
+
+                    /*
+                    return models.CountryLanguages.getJoin({
+                        country: true,
+                        language: true
+                    }).run().then((d) => reply(d));
+                    */
 
                     return models.Movie.get('94b3ad70-fe83-42c8-9b1d-739a10d2f52b')
                         .getJoin({

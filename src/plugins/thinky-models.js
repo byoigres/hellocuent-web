@@ -36,7 +36,11 @@ exports.register = (plugin, options, next) => {
     models.Language = thinky.createModel('language', {
         id: type.string(),
         name: type.string(),
-        code: type.string()
+        code: type.string(),
+        description: type.virtual().default(function () {
+
+            return `${this.name} (${this.code})`;
+        })
     });
 
     models.Language.hasMany(models.Movie, 'movies', 'id', 'languageId');

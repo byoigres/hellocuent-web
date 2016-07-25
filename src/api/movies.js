@@ -9,8 +9,10 @@ module.exports = [
         config: {
             validate: {
                 payload: {
-                    imdbId: Joi.string().required(),
-                    languageId: Joi.string().required()
+                    title: Joi.string().required(),
+                    year: Joi.number().required(),
+                    imdbId: Joi.string().required()//,
+                    //languageId: Joi.string().required()
                 }
             },
             pre: [
@@ -69,6 +71,22 @@ module.exports = [
 
                 return reply(movie);
             });
+        }
+    },
+    {
+        method: 'POST',
+        path: '/api/movies/omdbapi',
+        config: {
+            handler(request, reply) {
+
+                const s = request.query.criteria;
+                const findMovieByName = request.server.plugins['plugins/omdbapi'].findMovieByName;
+
+                return findMovieByName(s).then((json) => {
+
+                    return reply(json);
+                }).catch((err) => reply(err));
+            }
         }
     }
 ];
