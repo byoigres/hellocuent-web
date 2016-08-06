@@ -38,13 +38,10 @@
   "dependencies": {
     "confidence": "^3.0.0",
     "glue": "^3.3.0",
-    "hapi-react-views": "^9.0.0",
     "inert": "^4.0.0",
-    "node-fetch": "^1.5.3",
-    "react": "^15.1.0",
+    "mongoose": "^4.5.7",
+    "pug": "^2.0.0-beta4",
     "react-dom": "^15.1.0",
-    "rethinkdb": "^2.3.2",
-    "thinky": "^2.3.2",
     "vision": "^4.1.0",
     "visionary": "^6.0.0"
   }

@@ -15,7 +15,7 @@ exports.register = (server, options, next) => {
             config: {
                 handler(request, reply) {
 
-                    const models = request.server.plugins['plugins/thinky-models'].models;
+                    const models = request.server.plugins['plugins/mongoose'].models;
 
                     /*
                     return models.CountryLanguages.getJoin({
@@ -24,6 +24,19 @@ exports.register = (server, options, next) => {
                     }).run().then((d) => reply(d));
                     */
 
+                    return models.Movie
+                        .find({}/*, '_id title year imdbId language'*/)
+                        .populate({
+                            path: 'translations',
+                            populate: {
+                                path: 'country'
+                            }
+                        })
+                        .exec()
+                        .then((n) => reply(n));
+                    //return reply(models);
+
+                    /*
                     return models.Movie.get('94b3ad70-fe83-42c8-9b1d-739a10d2f52b')
                         .getJoin({
                             language: true,
@@ -48,6 +61,7 @@ exports.register = (server, options, next) => {
                             }
                         ])
                         .run().then((d) => reply(d));
+                    */
                 }
             }
         },

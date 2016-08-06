@@ -3,7 +3,8 @@
 const Hoek = require('hoek');
 
 const defaultViewsContext = {
-    title: 'Hellocuent'
+    title: 'Hellocuent',
+    messages: []
 };
 
 exports.register = (server, options, next) => {
@@ -14,7 +15,7 @@ exports.register = (server, options, next) => {
             const viewsContext = Hoek.clone(defaultViewsContext);
 
             request.response.source.context = Hoek.merge(viewsContext, request.response.source.context);
-
+            /*
             request.response.source.context = Hoek.merge(viewsContext, {
                 assets: request.server.settings.app.config.assets
             });
@@ -24,6 +25,7 @@ exports.register = (server, options, next) => {
                     session: request.auth.credentials
                 });
             }
+            */
         }
 
         return reply.continue();

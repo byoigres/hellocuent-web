@@ -30,16 +30,27 @@ const manifest = {
                 register: 'visionary',
                 options: {
                     engines: {
-                        js: 'hapi-react-views'
-                    },
-                    compileOptions: {
-                        renderMethod: 'renderToString'
+                        pug: require('pug')
                     },
                     relativeTo: __dirname,
                     path: './views'
                 }
             }
         },
+        {
+            plugin: './plugins/context'
+        },
+        {
+            plugin: './entries'
+        },
+        {
+            plugin: {
+                register: './plugins/mongoose',
+                options: {
+                    host: '172.17.0.1'
+                }
+            }
+        }/*,
         {
             plugin: {
                 register: './plugins/thinky-models',
@@ -56,8 +67,8 @@ const manifest = {
         },
         {
             plugin: './api'
-        },
-        {
+        },*/
+        /*{
             plugin: {
                 register: './plugins/rethinkdb',
                 options: {
@@ -67,7 +78,7 @@ const manifest = {
         },
         {
             plugin: './plugins/omdbapi'
-        }
+        }*/
     ]
 };
 
