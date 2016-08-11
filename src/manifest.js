@@ -40,6 +40,7 @@ const manifest = {
                 }
             }
         },
+        /*
         {
             plugin: {
                 register: './plugins/thinky-models',
@@ -47,16 +48,19 @@ const manifest = {
                     host: '172.17.0.1'
                 }
             }
-        },
+        },*/
         {
             plugin: './plugins/context'
+        },
+        {
+            plugin: './plugins/mongoose'
         },
         {
             plugin: './plugins/views'
         },
         {
             plugin: './api'
-        },
+        }/*,
         {
             plugin: {
                 register: './plugins/rethinkdb',
@@ -67,7 +71,7 @@ const manifest = {
         },
         {
             plugin: './plugins/omdbapi'
-        }
+        }*/
     ]
 };
 

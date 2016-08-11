@@ -1,6 +1,64 @@
 'use strict';
 
 const Joi = require('joi');
+const Boom = require('boom');
+
+const translations = {
+    english: {
+        title: {
+            any: {
+                empty: 'You must specify a title'
+            }
+        },
+        year: {
+            'number': {
+                base: 'The year is invalid'
+            }
+        },
+        imdbId: {
+            any: {
+                empty: 'You must provide a imdb id'
+            }
+        },
+        languageCode: {
+            any: {
+                empty: 'The selected language is not valid'
+            }
+        }
+    }
+};
+
+const validatePayload = (value, options, next) => {
+
+    const schema = {
+        title: Joi.string().required().label('title'),
+        year: Joi.number().required().label('year'),
+        imdbId: Joi.string().required().label('imdbId'),
+        languageCode: Joi.string(2).required().label('languageCode')
+    };
+
+    const result = Joi.validate(value, schema, { abortEarly: false });
+
+    console.log(JSON.stringify(result, null, 2));
+
+    if (result.error) {
+        const errors = {};
+
+        result.error.details.forEach((error) => {
+
+            const [type, name] = error.type.split('.');
+            const field = error.context.key;
+
+            errors[field] = translations.english[field][type][name];
+        });
+
+        console.log(JSON.stringify(errors, null, 2));
+
+        next(Boom.badRequest('Joi error', errors));
+    }
+
+    next();
+};
 
 module.exports = [
     {
@@ -8,14 +66,31 @@ module.exports = [
         path: '/api/movies/add',
         config: {
             validate: {
-                payload: {
-                    title: Joi.string().required(),
-                    year: Joi.number().required(),
-                    imdbId: Joi.string().required()//,
-                    //languageId: Joi.string().required()
-                }
+                payload: validatePayload
             },
             pre: [
+                {
+                    method(request, reply) {
+
+                        const models = request.server.plugins['plugins/mongoose'].models;
+                        const imdbId = request.payload.imdbId;
+
+                        return models.Movie
+                            .findOne({ imdbId })
+                            .exec()
+                            .then((data) => {
+
+                                if (data === undefined || data === null) {
+                                    return reply(imdbId);
+                                }
+
+                                reply(Boom.notAcceptable('', {
+                                    imdbId: 'Imdb id already registered.'
+                                })).takeover();
+                            })
+                            .then((err) => reply(err).takeover());
+                    }
+                },
                 {
                     assign: 'movieExists',
                     method(request, reply) {

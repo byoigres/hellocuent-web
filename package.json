@@ -36,6 +36,7 @@
     "nodemon": "^1.9.2"
   },
   "dependencies": {
+    "boom": "^3.2.2",
     "confidence": "^3.0.0",
     "glue": "^3.3.0",
     "hapi-react-views": "^9.0.0",
@@ -43,8 +44,6 @@
     "node-fetch": "^1.5.3",
     "react": "^15.1.0",
     "react-dom": "^15.1.0",
-    "rethinkdb": "^2.3.2",
-    "thinky": "^2.3.2",
     "vision": "^4.1.0",
     "visionary": "^6.0.0"
   }

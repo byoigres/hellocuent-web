@@ -9,17 +9,18 @@ module.exports = [
         config: {
             handler(request, reply) {
 
-                const models = request.server.plugins['plugins/thinky-models'].models;
+                const models = request.server.plugins['plugins/mongoose'].models;
 
-                return models.Language
-                .pluck([
-                    'id',
-                    'name',
-                    'code',
-                    'description'
-                ])
-                .run()
-                .then((json) => reply(json)).catch((err) => reply(err));
+                models.Language
+                    .find({}, {
+                        _id: false,
+                        __v: false,
+                        updatedAt: false,
+                        createdAt: false
+                    })
+                    .exec()
+                    .then((languages) => reply(languages))
+                    .then((err) => reply(err));
             }
         }
     }
