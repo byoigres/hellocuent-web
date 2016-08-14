@@ -1,0 +1,10 @@
+{
+	"imdbid.registered": "El identificador Imdb ya se encuentra registrado.",
+	"title.any.empty": "Debe especificar un titulo",
+	"languageCode.any.empty": "El lenguaje seleccionado no es válido",
+	"imdbId.any.empty": "Debe especificar un identificador imdb",
+	"year.number.base": "El año es inválido",
+	"year.number.min": "El año es inválido",
+	"year.number.max": "El año es inválido",
+	"languageCode.invalid": "El lenguaje es inválido"
+}

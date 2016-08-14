@@ -1,0 +1,10 @@
+{
+    "imdbid.registered": "Imdb id already registered.",
+    "title.any.empty": "You must specify a title",
+    "languageCode.any.empty": "The selected language is not valid",
+    "imdbId.any.empty": "You must provide a imdb id",
+    "year.number.base": "The year is invalid",
+    "year.number.min": "The year is invalid",
+	"year.number.max": "The year is invalid",
+	"languageCode.invalid": "The language is invalid"
+}

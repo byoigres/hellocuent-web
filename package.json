@@ -39,6 +39,7 @@
     "boom": "^3.2.2",
     "confidence": "^3.0.0",
     "glue": "^3.3.0",
+    "hapi-i18n": "^1.0.3",
     "hapi-react-views": "^9.0.0",
     "inert": "^4.0.0",
     "node-fetch": "^1.5.3",

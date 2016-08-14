@@ -40,6 +40,15 @@ const manifest = {
                 }
             }
         },
+        {
+            plugin: {
+                register: 'hapi-i18n',
+                options: {
+                    locales: ['es', 'en'],
+                    directory: `${__dirname}/config/locales`
+                }
+            }
+        },
         /*
         {
             plugin: {
@@ -53,6 +62,9 @@ const manifest = {
             plugin: './plugins/context'
         },
         {
+            plugin: './plugins/requestValidation'
+        },
+        {
             plugin: './plugins/mongoose'
         },
         {
@@ -60,6 +72,9 @@ const manifest = {
         },
         {
             plugin: './api'
+        },
+        {
+            plugin: './api/movies'
         }/*,
         {
             plugin: {

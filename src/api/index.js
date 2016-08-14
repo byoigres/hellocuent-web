@@ -1,11 +1,9 @@
 'use strict';
 
-const Movies = require('./movies');
 const Languages = require('./languages');
 
 exports.register = (server, options, next) => {
 
-    server.route(Movies);
     server.route(Languages);
 
     server.route([
