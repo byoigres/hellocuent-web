@@ -32,7 +32,7 @@ exports.register = (plugin, opts, next) => {
         updatedAt: { type: Date, default: Date.now }
     });
 
-    models.Movie = mongoose.model('movie', {
+    const movieSchema = new Schema({
         title: String,
         year: Number,
         imdbId: String,
@@ -45,6 +45,25 @@ exports.register = (plugin, opts, next) => {
         createdAt: { type: Date, default: Date.now },
         updatedAt: { type: Date, default: Date.now }
     });
+
+    movieSchema.method('toClient', function () {
+
+        const obj = this.toObject();
+
+        //Rename fields
+        obj.id = obj._id;
+        delete obj._id;
+
+        return obj;
+    });
+
+    /*
+    movieSchema.set('toJSON', {
+        virtuals: true
+    });
+    */
+
+    models.Movie = mongoose.model('movie', movieSchema);
 
     plugin.expose('models', models);
 

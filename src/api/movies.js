@@ -7,6 +7,24 @@ exports.register = (server, options, next) => {
 
     server.route([
         {
+            method: 'GET',
+            path: '/api/movies',
+            handler(request, reply) {
+
+                const models = request.server.plugins['plugins/mongoose'].models;
+
+                models.Movie.find({}, {
+                    __v: false,
+                    translations: false,
+                    updatedAt: false,
+                    createdAt: false
+                })
+                    .exec()
+                    .then((data) => reply(data.map((item) => item.toClient())))
+                    .catch((error) => reply(error));
+            }
+        },
+        {
             method: 'POST',
             path: '/api/movies/add',
             config: {
