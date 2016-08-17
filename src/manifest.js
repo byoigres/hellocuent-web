@@ -75,6 +75,12 @@ const manifest = {
         },
         {
             plugin: './api/movies'
+        },
+        {
+            plugin: './api/countries'
+        },
+        {
+            plugin: './api/translations'
         }/*,
         {
             plugin: {

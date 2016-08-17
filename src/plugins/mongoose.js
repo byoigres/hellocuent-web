@@ -8,22 +8,24 @@ exports.register = (plugin, opts, next) => {
     const mongoose = Mongoose.connect('mongodb://172.17.0.1/test');
 
     const models = {};
+    const schemas = {};
 
-    models.Country = mongoose.model('country', {
+    // Models
+    schemas.country = new Schema({
         name: String,
         code: String,
         createdAt: { type: Date, default: Date.now },
         updatedAt: { type: Date, default: Date.now }
     });
 
-    models.Language = mongoose.model('language', {
+    schemas.language = new Schema({
         name: String,
         code: String,
         createdAt: { type: Date, default: Date.now },
         updatedAt: { type: Date, default: Date.now }
     });
 
-    models.Translation = mongoose.model('translation', {
+    schemas.translation = new Schema({
         title: String,
         country: {
             type: Schema.Types.ObjectId, ref: 'country'
@@ -32,7 +34,7 @@ exports.register = (plugin, opts, next) => {
         updatedAt: { type: Date, default: Date.now }
     });
 
-    const movieSchema = new Schema({
+    schemas.movie = new Schema({
         title: String,
         year: Number,
         imdbId: String,
@@ -46,24 +48,29 @@ exports.register = (plugin, opts, next) => {
         updatedAt: { type: Date, default: Date.now }
     });
 
-    movieSchema.method('toClient', function () {
+    // Models
+    models.Country = mongoose.model('country', schemas.country);
 
-        const obj = this.toObject();
+    models.Language = mongoose.model('language', schemas.language);
 
-        //Rename fields
-        obj.id = obj._id;
-        delete obj._id;
+    models.Translation = mongoose.model('translation', schemas.translation);
 
-        return obj;
+    models.Movie = mongoose.model('movie', schemas.movie);
+
+    // Schema options
+    Object.keys(schemas).forEach((key) => {
+
+        schemas[key].set('toJSON', {
+            virtuals: true
+        });
+
+        schemas[key].options.toJSON.transform = (doc, ret, options) => {
+
+            ret.id = ret._id;
+            delete ret._id;
+            delete ret.__v;
+        };
     });
-
-    /*
-    movieSchema.set('toJSON', {
-        virtuals: true
-    });
-    */
-
-    models.Movie = mongoose.model('movie', movieSchema);
 
     plugin.expose('models', models);
 

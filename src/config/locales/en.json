@@ -6,5 +6,8 @@
     "year.number.base": "The year is invalid",
     "year.number.min": "The year is invalid",
 	"year.number.max": "The year is invalid",
-	"languageCode.invalid": "The language is invalid"
+	"languageCode.invalid": "The language is invalid",
+    "movieId.any.required": "Invalid movie id",
+	"title.any.required": "The title is required",
+	"country.any.required": "The selected country is not valid"
 }

@@ -19,8 +19,50 @@ exports.register = (server, options, next) => {
                     updatedAt: false,
                     createdAt: false
                 })
+                    .populate('language', '-_id code name')
                     .exec()
-                    .then((data) => reply(data.map((item) => item.toClient())))
+                    .then((data) => {
+
+                        return reply(data.map((item) => item));
+                    })
+                    .catch((error) => reply(error));
+            }
+        },
+        {
+            method: 'GET',
+            path: '/api/movies/{movieId}',
+            handler(request, reply) {
+
+                const models = request.server.plugins['plugins/mongoose'].models;
+                const { movieId } = request.params;
+
+                models.Movie.findOne({
+                    _id: movieId
+                }, {
+                    __v: false,
+                    updatedAt: false,
+                    createdAt: false
+                })
+                    .populate('language', '-_id name code')
+                    .populate({
+                        path: 'translations',
+                        select: 'title country',
+                        populate: {
+                            path: 'country',
+                            select: '-_id code name'
+                        }
+                    })
+                    .exec()
+                    .then((data) => {
+
+                        /*
+                        const json = data.toJSON();
+                        const code = json.language.code;
+                        delete json.language;
+                        json.language = code;
+                        */
+                        reply(data);
+                    })
                     .catch((error) => reply(error));
             }
         },
@@ -97,14 +139,6 @@ exports.register = (server, options, next) => {
                 const imdbId = request.payload.imdbId;
                 const language = request.pre.languageId;
                 const models = request.server.plugins['plugins/mongoose'].models;
-
-                reply({
-                    title,
-                    year,
-                    imdbId,
-                    language
-                });
-
                 const movie = new models.Movie();
 
                 movie.set({

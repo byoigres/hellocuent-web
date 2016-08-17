@@ -11,9 +11,11 @@ internals.validate = (value, schema, i18n) => {
         abortEarly: false
     });
 
+    // console.log('result', result);
+
     if (result.error) {
-        // console.log('Request requestValidation');
-        // console.log(JSON.stringify(result, null, 2));
+        console.log('Request requestValidation');
+        console.log(JSON.stringify(result, null, 2));
         const errors = {};
 
         result.error.details.forEach((error) => {
@@ -26,7 +28,7 @@ internals.validate = (value, schema, i18n) => {
         return Promise.reject(Boom.badRequest(null, errors));
     }
 
-    return null;
+    return Promise.resolve();
 };
 
 exports.register = (server, options, next) => {

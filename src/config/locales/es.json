@@ -6,5 +6,15 @@
 	"year.number.base": "El año es inválido",
 	"year.number.min": "El año es inválido",
 	"year.number.max": "El año es inválido",
-	"languageCode.invalid": "El lenguaje es inválido"
+	"languageCode.invalid": "El lenguaje es inválido",
+	"movieId.any.required": "identificador de película inválido",
+	"title.any.required": "Es necesario especificar un titulo",
+	"country.any.required": "El país es inválido",
+	"movieId.string.hex": "movieId.string.hex",
+	"movieId.string.length": "movieId.string.length",
+	"movie.notExists": "La película no existe",
+	"country.invalid": "El país seleccionado no es válido",
+	"translation.country.registered": "translation.country.registered",
+	"country.string.length": "country.string.length",
+	"translation.country.registered": "La traducción para este país ya se encuentra registrada"
 }
