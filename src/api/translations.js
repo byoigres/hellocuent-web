@@ -17,7 +17,7 @@ exports.register = (server, options, next) => {
                                 .requestValidation(request.payload, {
                                     movieId: Joi.string().length(24).required().label('movieId'),
                                     title: Joi.string().required().label('title'),
-                                    country: Joi.string().length(2).required().label('country')
+                                    countryCode: Joi.string().length(2).required().label('country')
                                 }, request.i18n)
                                 .then(() => reply())
                                 .catch((errors) => reply(errors));
@@ -50,10 +50,10 @@ exports.register = (server, options, next) => {
                         method(request, reply) {
 
                             const models = request.server.plugins['plugins/mongoose'].models;
-                            const { country } = request.payload;
+                            const { countryCode } = request.payload;
 
                             models.Country
-                                .findOne({ code: country }, '_id code')
+                                .findOne({ code: countryCode }, '_id code')
                                 .exec()
                                 .then((data) => {
 

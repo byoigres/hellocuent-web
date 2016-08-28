@@ -68,7 +68,7 @@ const manifest = {
             plugin: './plugins/mongoose'
         },
         {
-            plugin: './plugins/views'
+            plugin: './plugins/public'
         },
         {
             plugin: './api'

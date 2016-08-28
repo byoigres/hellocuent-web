@@ -14,7 +14,7 @@
 	"movieId.string.length": "movieId.string.length",
 	"movie.notExists": "La película no existe",
 	"country.invalid": "El país seleccionado no es válido",
-	"translation.country.registered": "translation.country.registered",
-	"country.string.length": "country.string.length",
-	"translation.country.registered": "La traducción para este país ya se encuentra registrada"
+	"translation.country.registered": "La traducción para este país ya se encuentra registrada",
+	"country.string.length": "El país seleccionado no es válido",
+	"country.any.empty": "El país seleccionado no es válido"
 }
