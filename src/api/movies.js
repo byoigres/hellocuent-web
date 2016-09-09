@@ -46,11 +46,17 @@ exports.register = (server, options, next) => {
                     .populate('language', '-_id name code')
                     .populate({
                         path: 'translations',
-                        select: 'title country',
-                        populate: {
-                            path: 'country',
-                            select: '-_id code name'
-                        }
+                        select: 'title country language description',
+                        populate: [
+                            {
+                                path: 'country',
+                                select: '-_id code name'
+                            },
+                            {
+                                path: 'language',
+                                select: '-_id code name'
+                            }
+                        ]
                     })
                     .exec()
                     .then((data) => {

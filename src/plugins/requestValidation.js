@@ -11,8 +11,6 @@ internals.validate = (value, schema, i18n) => {
         abortEarly: false
     });
 
-    // console.log('result', result);
-
     if (result.error) {
         console.log('Request requestValidation');
         console.log(JSON.stringify(result, null, 2));

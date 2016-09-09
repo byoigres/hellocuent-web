@@ -14,6 +14,9 @@ exports.register = (plugin, opts, next) => {
     schemas.country = new Schema({
         name: String,
         code: String,
+        languages: [{
+            type: Schema.Types.ObjectId, ref: 'language'
+        }],
         createdAt: { type: Date, default: Date.now },
         updatedAt: { type: Date, default: Date.now }
     });
@@ -29,6 +32,9 @@ exports.register = (plugin, opts, next) => {
         title: String,
         country: {
             type: Schema.Types.ObjectId, ref: 'country'
+        },
+        language: {
+            type: Schema.Types.ObjectId, ref: 'language'
         },
         createdAt: { type: Date, default: Date.now },
         updatedAt: { type: Date, default: Date.now }

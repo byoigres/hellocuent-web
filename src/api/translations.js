@@ -17,7 +17,8 @@ exports.register = (server, options, next) => {
                                 .requestValidation(request.payload, {
                                     movieId: Joi.string().length(24).required().label('movieId'),
                                     title: Joi.string().required().label('title'),
-                                    countryCode: Joi.string().length(2).required().label('country')
+                                    countryCode: Joi.string().length(2).required().label('country'),
+                                    languageCode: Joi.string().length(2).required().label('language')
                                 }, request.i18n)
                                 .then(() => reply())
                                 .catch((errors) => reply(errors));
@@ -68,25 +69,56 @@ exports.register = (server, options, next) => {
                         }
                     },
                     {
+                        assign: 'language',
+                        method(request, reply) {
+
+                            const models = request.server.plugins['plugins/mongoose'].models;
+                            const { languageCode } = request.payload;
+
+                            models.Language
+                                .findOne({ code: languageCode }, '_id code')
+                                .exec()
+                                .then((data) => {
+
+                                    if (data === null) {
+                                        return reply(Boom.notAcceptable(null, {
+                                            country: request.i18n.__('language.invalid')
+                                        }));
+                                    }
+                                    reply(data);
+                                })
+                                .catch((error) => reply(error));
+                        }
+                    },
+                    {
                         assign: 'data',
                         method(request, reply) {
 
                             const models = request.server.plugins['plugins/mongoose'].models;
                             const { movieId } = request.payload;
-                            const { country } = request.pre;
+                            const { country, language } = request.pre;
 
                             models.Movie
                                 .findById(movieId, 'translations _id')
                                 .populate({
                                     path: 'translations',
                                     select: '-_id country',
-                                    populate: {
-                                        path: 'country',
-                                        select: '_id code',
-                                        match: {
-                                            code: country.code
+                                    populate: [
+                                        {
+                                            path: 'country',
+                                            select: '_id code',
+                                            match: {
+                                                code: country.code
+                                            }
+                                        },
+                                        {
+                                            path: 'language',
+                                            select: '_id code',
+                                            match: {
+                                                code: language.code
+                                            }
                                         }
-                                    }
+                                    ]
                                 })
                                 .exec()
                                 .then((data) => {
@@ -100,7 +132,8 @@ exports.register = (server, options, next) => {
 
                                     reply({
                                         movie: data,
-                                        country
+                                        country,
+                                        language
                                     });
                                 })
                                 .catch((error) => reply(error));
@@ -112,14 +145,15 @@ exports.register = (server, options, next) => {
 
                 const models = request.server.plugins['plugins/mongoose'].models;
                 const { title } = request.payload;
-                const { movie, country } = request.pre.data;
+                const { movie, country, language } = request.pre.data;
 
 
                 const translation = new models.Translation();
 
                 translation.set({
                     title,
-                    country: country._id
+                    country: country._id,
+                    language: language._id
                 });
 
                 translation.save()

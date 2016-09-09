@@ -16,5 +16,8 @@
 	"country.invalid": "El país seleccionado no es válido",
 	"translation.country.registered": "La traducción para este país ya se encuentra registrada",
 	"country.string.length": "El país seleccionado no es válido",
-	"country.any.empty": "El país seleccionado no es válido"
+	"country.any.empty": "El país seleccionado no es válido",
+	"language.any.required": "language.any.required",
+	"country.object.allowUnknown": "country.object.allowUnknown",
+	"language.object.allowUnknown": "language.object.allowUnknown"
 }
