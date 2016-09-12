@@ -36,6 +36,7 @@ exports.register = (plugin, opts, next) => {
         language: {
             type: Schema.Types.ObjectId, ref: 'language'
         },
+        description: String,
         createdAt: { type: Date, default: Date.now },
         updatedAt: { type: Date, default: Date.now }
     });
@@ -54,6 +55,13 @@ exports.register = (plugin, opts, next) => {
         updatedAt: { type: Date, default: Date.now }
     });
 
+    schemas.user = new Schema({
+        username: String,
+        password: String,
+        createdAt: { type: Date, default: Date.now },
+        updatedAt: { type: Date, default: Date.now }
+    });
+
     // Models
     models.Country = mongoose.model('country', schemas.country);
 
@@ -62,6 +70,8 @@ exports.register = (plugin, opts, next) => {
     models.Translation = mongoose.model('translation', schemas.translation);
 
     models.Movie = mongoose.model('movie', schemas.movie);
+
+    models.User = mongoose.model('user', schemas.user);
 
     // Schema options
     Object.keys(schemas).forEach((key) => {

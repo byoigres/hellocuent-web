@@ -11,7 +11,7 @@ exports.register = (server, options, next) => {
     server.ext('onPreResponse', (request, reply) => {
 
         const { response } = request;
-        // console.log(JSON.stringify(response, null, 2));
+
         if (response.variety === 'view') {
             const viewsContext = Hoek.clone(defaultViewsContext);
 
@@ -30,11 +30,20 @@ exports.register = (server, options, next) => {
 
         if (response.isBoom /*&& response.data.name === 'ValidationError'*/) {
             // response.output.payload.message = 'Custom Message';
-            response.output.payload = {
-                error: {
-                    messages: response.data
-                }
-            };
+            if (typeof response.data === 'string') {
+                response.output.payload = {
+                    error: {
+                        message: response.data
+                    }
+                };
+            }
+            else {
+                response.output.payload = {
+                    error: {
+                        messages: response.data
+                    }
+                };
+            }
         }
 
         return reply.continue();

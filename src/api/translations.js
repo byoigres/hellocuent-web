@@ -18,7 +18,8 @@ exports.register = (server, options, next) => {
                                     movieId: Joi.string().length(24).required().label('movieId'),
                                     title: Joi.string().required().label('title'),
                                     countryCode: Joi.string().length(2).required().label('country'),
-                                    languageCode: Joi.string().length(2).required().label('language')
+                                    languageCode: Joi.string().length(2).required().label('language'),
+                                    description: Joi.string().max(80).required().label('description')
                                 }, request.i18n)
                                 .then(() => reply())
                                 .catch((errors) => reply(errors));
@@ -144,16 +145,15 @@ exports.register = (server, options, next) => {
             handler(request, reply) {
 
                 const models = request.server.plugins['plugins/mongoose'].models;
-                const { title } = request.payload;
+                const { title, description } = request.payload;
                 const { movie, country, language } = request.pre.data;
-
-
                 const translation = new models.Translation();
 
                 translation.set({
                     title,
                     country: country._id,
-                    language: language._id
+                    language: language._id,
+                    description
                 });
 
                 translation.save()

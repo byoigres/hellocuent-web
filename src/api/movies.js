@@ -110,7 +110,7 @@ exports.register = (server, options, next) => {
                                         imdbId: request.i18n.__('imdbid.registered')
                                     })).takeover();
                                 })
-                                .then((err) => reply(err).takeover());
+                                .catch((err) => reply(err).takeover());
                         }
                     },
                     {
@@ -133,16 +133,18 @@ exports.register = (server, options, next) => {
 
                                     reply(data._id);
                                 })
-                                .then((err) => reply(err).takeover());
+                                .catch((err) => reply(err).takeover());
                         }
                     }
                 ]
             },
             handler(request, reply) {
 
-                const title = request.payload.title;
-                const year = request.payload.year;
-                const imdbId = request.payload.imdbId;
+                const {
+                    title,
+                    year,
+                    imdbId
+                } = request.payload;
                 const language = request.pre.languageId;
                 const models = request.server.plugins['plugins/mongoose'].models;
                 const movie = new models.Movie();
@@ -156,7 +158,7 @@ exports.register = (server, options, next) => {
 
                 return movie.save()
                     .then(() => reply(movie))
-                    .then((err) => reply(err));
+                    .catch((err) => reply(err));
             }
         },
         {

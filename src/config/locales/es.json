@@ -17,7 +17,12 @@
 	"translation.country.registered": "La traducción para este país ya se encuentra registrada",
 	"country.string.length": "El país seleccionado no es válido",
 	"country.any.empty": "El país seleccionado no es válido",
-	"language.any.required": "language.any.required",
+	"language.any.required": "El idioma seleccionado no es válido.",
 	"country.object.allowUnknown": "country.object.allowUnknown",
-	"language.object.allowUnknown": "language.object.allowUnknown"
+	"language.object.allowUnknown": "language.object.allowUnknown",
+	"description.string.length": "description.string.length",
+	"description.any.empty": "description.any.empty",
+	"username.any.required": "Debe especificar un nombre de usuario",
+	"password.any.required": "Debe especificar una contraseña",
+	"user.notFound": "Usuario no encontrado"
 }

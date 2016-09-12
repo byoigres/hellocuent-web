@@ -18,7 +18,7 @@ module.exports = [
                     })
                     .exec()
                     .then((languages) => reply(languages))
-                    .then((err) => reply(err));
+                    .catch((err) => reply(err));
             }
         }
     },
@@ -44,7 +44,7 @@ module.exports = [
                     .populate('languages', '-_id name code')
                     .exec()
                     .then((data) => reply(data.languages.map((item) => item)))
-                    .then((err) => reply(err));
+                    .catch((err) => reply(err));
             }
         }
     }

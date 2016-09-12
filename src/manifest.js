@@ -74,6 +74,9 @@ const manifest = {
             plugin: './api'
         },
         {
+            plugin: './api/auth'
+        },
+        {
             plugin: './api/movies'
         },
         {
