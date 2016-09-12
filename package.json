@@ -36,6 +36,7 @@
     "nodemon": "^1.9.2"
   },
   "dependencies": {
+    "bcrypt": "^0.8.7",
     "boom": "^3.2.2",
     "confidence": "^3.0.0",
     "glue": "^3.3.0",
