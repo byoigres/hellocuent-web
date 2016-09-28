@@ -28,6 +28,12 @@ exports.register = (server, options, next) => {
             }
         }
 
+        const contentType = request.raw.req.headers['content-type'];
+
+        if (!response.isBoom && contentType && contentType.match(/application\/json/)) {
+            return reply.continue();
+        }
+
         if (response.isBoom /*&& response.data.name === 'ValidationError'*/) {
             // response.output.payload.message = 'Custom Message';
             if (typeof response.data === 'string') {

@@ -2,6 +2,17 @@
 const Joi = require('joi');
 const Boom = require('boom');
 const Bcrypt = require('bcrypt');
+const Uuid = require('uuid');
+const Jwt = require('jsonwebtoken');
+
+/*eslint hapi/hapi-scope-start: 0*/
+const createToken = (sid, data) => Jwt.sign(data, 'NeverShareYourSecret', {
+    algorithm: 'HS256',
+    expiresIn: '1h'
+});
+// THIS IS TEMPORARY
+// THIS IS TEMPORARY
+// THIS IS TEMPORARY
 
 exports.register = (server, options, next) => {
 
@@ -10,6 +21,10 @@ exports.register = (server, options, next) => {
             method: 'POST',
             path: '/api/auth/login',
             config: {
+                auth: {
+                    mode: 'try',
+                    strategy: 'strategy-jwt'
+                },
                 pre: [
                     {
                         method(request, reply) {
@@ -60,7 +75,23 @@ exports.register = (server, options, next) => {
 
                     const { user } = request.pre;
 
-                    reply(user);
+                    const sid = Uuid.v4();
+
+                    const sessionData = {
+                        sid,
+                        id: user.id,
+                        username: user.username
+                    };
+                    const token = createToken(sid, sessionData);
+
+                    request.server.app.cache.set(sid, sessionData, 0, (err) => {
+
+                        if (err) {
+                            return reply(err);
+                        }
+
+                        return reply(user).header('Authorization', token);
+                    });
                 }
             }
         },

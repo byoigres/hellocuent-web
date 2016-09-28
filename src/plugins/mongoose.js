@@ -5,7 +5,7 @@ const Schema = Mongoose.Schema;
 
 exports.register = (plugin, opts, next) => {
 
-    const mongoose = Mongoose.connect('mongodb://172.17.0.1/test');
+    const mongoose = Mongoose.connect('mongodb://172.17.0.2/test');
 
     const models = {};
     const schemas = {};

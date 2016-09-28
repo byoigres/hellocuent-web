@@ -24,5 +24,8 @@
 	"description.any.empty": "description.any.empty",
 	"username.any.required": "Debe especificar un nombre de usuario",
 	"password.any.required": "Debe especificar una contraseña",
-	"user.notFound": "Usuario no encontrado"
+	"user.notFound": "Usuario no encontrado",
+	"username.any.empty": "username.any.empty",
+	"password.any.empty": "password.any.empty",
+	"value.object.base": "value.object.base"
 }

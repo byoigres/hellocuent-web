@@ -14,6 +14,12 @@ const manifest = {
             labels: ['web-api']
         }
     },
+    db: {
+        cache: {
+            uri: 'mongodb://172.17.0.2',
+            partition: 'cache'
+        }
+    },
     assets: {
         $filter: 'env',
         $default: {

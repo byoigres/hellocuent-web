@@ -8,12 +8,6 @@ Composer((composerErr, server) => {
     }
 
     server.start()
-        .then((serverErr) => {
-
-            if (serverErr) {
-                throw serverErr;
-            }
-
-            console.log(`Server started at ${server.info.uri}`);
-        });
+        .then(() => console.log(`Server started at ${server.info.uri}`))
+        .catch((err) => console.log(err));
 });

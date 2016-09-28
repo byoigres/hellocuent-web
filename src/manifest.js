@@ -15,6 +15,12 @@ const manifest = {
         },
         app: {
             config: Config.get('/')
+        },
+        cache: {
+            name: 'mongo',
+            engine: 'catbox-mongodb',
+            uri: Config.get('/db/cache/uri'),
+            partition: Config.get('/db/cache/partition')
         }
     },
     connections: [{
@@ -49,15 +55,7 @@ const manifest = {
                 }
             }
         },
-        /*
-        {
-            plugin: {
-                register: './plugins/thinky-models',
-                options: {
-                    host: '172.17.0.1'
-                }
-            }
-        },*/
+        { plugin: 'hapi-auth-jwt2' },
         {
             plugin: './plugins/context'
         },
@@ -66,6 +64,9 @@ const manifest = {
         },
         {
             plugin: './plugins/mongoose'
+        },
+        {
+            plugin: './plugins/session'
         },
         {
             plugin: './plugins/public'
@@ -84,18 +85,7 @@ const manifest = {
         },
         {
             plugin: './api/translations'
-        }/*,
-        {
-            plugin: {
-                register: './plugins/rethinkdb',
-                options: {
-                    host: '172.17.0.1'
-                }
-            }
-        },
-        {
-            plugin: './plugins/omdbapi'
-        }*/
+        }
     ]
 };
 
