@@ -46,7 +46,12 @@ exports.register = (server, options, next) => {
                             const models = request.server.plugins['plugins/mongoose'].models;
 
                             models.User
-                                .findOne({ username }, {
+                                .findOne({
+                                    $or: [
+                                        { username },
+                                        { email: username }
+                                    ]
+                                }, {
                                     __v: false,
                                     updatedAt: false,
                                     createdAt: false
@@ -106,6 +111,7 @@ exports.register = (server, options, next) => {
                             server.methods
                                 .requestValidation(request.payload, {
                                     username: Joi.string().max(35).required().label('username'),
+                                    email: Joi.string().email().max(80).required().label('email'),
                                     password: Joi.string().max(80).required().label('password'),
                                     confirmPassword: Joi.string().max(80).required().label('confirmPassword')
                                 }, request.i18n)
@@ -127,11 +133,16 @@ exports.register = (server, options, next) => {
                     {
                         method(request, reply) {
 
-                            const { username } = request.payload;
+                            const { username, email } = request.payload;
                             const models = request.server.plugins['plugins/mongoose'].models;
 
                             models.User
-                            .findOne({ username })
+                            .findOne({
+                                $or: [
+                                    { username },
+                                    { email }
+                                ]
+                            })
                             .exec()
                             .then((data) => {
 
@@ -139,9 +150,17 @@ exports.register = (server, options, next) => {
                                     return reply();
                                 }
 
-                                return reply(Boom.notAcceptable(null, {
-                                    imdbId: request.i18n.__('user.registered')
-                                }));
+                                if (data.username === username) {
+                                    return reply(Boom.notAcceptable(null, {
+                                        username: request.i18n.__('RegisterUserAccount.UsernameAlreadyExists')
+                                    }));
+                                }
+
+                                if (data.email === email) {
+                                    return reply(Boom.notAcceptable(null, {
+                                        email: request.i18n.__('RegisterUserAccount.EmailAlreadyExists')
+                                    }));
+                                }
                             })
                             .catch((err) => reply(err));
                         }
@@ -159,18 +178,19 @@ exports.register = (server, options, next) => {
                 handler(request, reply) {
 
                     const models = request.server.plugins['plugins/mongoose'].models;
-                    const { username } = request.payload;
+                    const { username, email } = request.payload;
                     const { hash } = request.pre;
 
                     const user = new models.User();
 
                     user.set({
                         username,
+                        email,
                         password: hash
                     });
 
                     return user.save()
-                        .then(() => reply())
+                        .then(() => reply({}))
                         .catch((err) => reply(err));
                 }
             }
