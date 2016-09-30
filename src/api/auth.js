@@ -106,10 +106,22 @@ exports.register = (server, options, next) => {
                             server.methods
                                 .requestValidation(request.payload, {
                                     username: Joi.string().max(35).required().label('username'),
-                                    password: Joi.string().max(80).required().label('password')
+                                    password: Joi.string().max(80).required().label('password'),
+                                    confirmPassword: Joi.string().max(80).required().label('confirmPassword')
                                 }, request.i18n)
                                 .then(() => reply())
                                 .catch((errors) => reply(errors));
+                        }
+                    },
+                    {
+                        method(request, reply) {
+                            const { password, confirmPassword } = request.payload;
+
+                            if (password !== confirmPassword) {
+                                return reply(Boom.notAcceptable(null, request.i18n.__('RegisterUserAccount.PasswordsDontMatch')));
+                            }
+
+                            reply();
                         }
                     },
                     {
@@ -127,9 +139,9 @@ exports.register = (server, options, next) => {
                                     return reply();
                                 }
 
-                                reply(Boom.notAcceptable(null, {
+                                return reply(Boom.notAcceptable(null, {
                                     imdbId: request.i18n.__('user.registered')
-                                })).takeover();
+                                }));
                             })
                             .catch((err) => reply(err));
                         }
@@ -158,7 +170,7 @@ exports.register = (server, options, next) => {
                     });
 
                     return user.save()
-                        .then(() => reply(user))
+                        .then(() => reply())
                         .catch((err) => reply(err));
                 }
             }

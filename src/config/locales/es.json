@@ -27,5 +27,10 @@
 	"user.notFound": "Usuario no encontrado",
 	"username.any.empty": "username.any.empty",
 	"password.any.empty": "password.any.empty",
-	"value.object.base": "value.object.base"
+	"value.object.base": "value.object.base",
+	"password.string.max": "password.string.max",
+	"confirmPassword.any.required": "confirmPassword.any.required",
+	"RegisterUserAccount.PasswordsDontMatch": "Las contraseñas proporcionadas no coinciden.",
+	"user.registered": "user.registered",
+	"confirmPassword.any.empty": "confirmPassword.any.empty"
 }
