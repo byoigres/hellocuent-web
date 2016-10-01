@@ -58,6 +58,7 @@ exports.register = (plugin, opts, next) => {
     schemas.user = new Schema({
         username: String,
         email: String,
+        name: String,
         password: String,
         createdAt: { type: Date, default: Date.now },
         updatedAt: { type: Date, default: Date.now }

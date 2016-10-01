@@ -32,5 +32,8 @@
 	"confirmPassword.any.required": "confirmPassword.any.required",
 	"RegisterUserAccount.PasswordsDontMatch": "Las contraseñas proporcionadas no coinciden.",
 	"user.registered": "user.registered",
-	"confirmPassword.any.empty": "confirmPassword.any.empty"
+	"confirmPassword.any.empty": "confirmPassword.any.empty",
+	"name.any.required": "name.any.required",
+	"language.any.empty": "language.any.empty",
+	"language.string.length": "language.string.length"
 }

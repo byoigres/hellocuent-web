@@ -69,7 +69,9 @@ exports.register = (server, options, next) => {
 
                                     reply({
                                         id: user._id,
-                                        username: user.username
+                                        username: user.username,
+                                        email: user.email,
+                                        name: user.name
                                     });
                                 })
                                 .catch((err) => reply(err));
@@ -112,6 +114,7 @@ exports.register = (server, options, next) => {
                                 .requestValidation(request.payload, {
                                     username: Joi.string().max(35).required().label('username'),
                                     email: Joi.string().email().max(80).required().label('email'),
+                                    name: Joi.string().max(60).required().label('name'),
                                     password: Joi.string().max(80).required().label('password'),
                                     confirmPassword: Joi.string().max(80).required().label('confirmPassword')
                                 }, request.i18n)
@@ -178,7 +181,7 @@ exports.register = (server, options, next) => {
                 handler(request, reply) {
 
                     const models = request.server.plugins['plugins/mongoose'].models;
-                    const { username, email } = request.payload;
+                    const { username, email, name } = request.payload;
                     const { hash } = request.pre;
 
                     const user = new models.User();
@@ -186,6 +189,7 @@ exports.register = (server, options, next) => {
                     user.set({
                         username,
                         email,
+                        name,
                         password: hash
                     });
 
