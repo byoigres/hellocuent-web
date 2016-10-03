@@ -4,8 +4,8 @@ const Mongoose = require('mongoose');
 const Schema = Mongoose.Schema;
 
 exports.register = (plugin, opts, next) => {
-
-    const mongoose = Mongoose.connect('mongodb://172.17.0.2/test');
+    const config = plugin.settings.app.config.db.app;
+    const mongoose = Mongoose.connect(`${config.uri}/${config.partition}`);
 
     const models = {};
     const schemas = {};
@@ -51,6 +51,7 @@ exports.register = (plugin, opts, next) => {
         translations: [{
             type: Schema.Types.ObjectId, ref: 'translation'
         }],
+        poster: String,
         createdAt: { type: Date, default: Date.now },
         updatedAt: { type: Date, default: Date.now }
     });

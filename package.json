@@ -46,10 +46,12 @@
     "hapi-react-views": "^9.0.0",
     "inert": "^4.0.0",
     "jsonwebtoken": "^7.1.9",
+    "mime-types": "^2.1.12",
     "mongoose": "^4.6.0",
     "node-fetch": "^1.5.3",
     "react": "^15.1.0",
     "react-dom": "^15.1.0",
+    "shortid": "^2.2.6",
     "vision": "^4.1.0",
     "visionary": "^6.0.0"
   }

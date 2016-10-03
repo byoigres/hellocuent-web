@@ -2,6 +2,10 @@
 
 const Joi = require('joi');
 const Boom = require('boom');
+const Fs = require('fs');
+const Path = require('path');
+const ShortId = require('shortid');
+const Mime = require('mime-types');
 
 exports.register = (server, options, next) => {
 
@@ -59,23 +63,19 @@ exports.register = (server, options, next) => {
                         ]
                     })
                     .exec()
-                    .then((data) => {
-
-                        /*
-                        const json = data.toJSON();
-                        const code = json.language.code;
-                        delete json.language;
-                        json.language = code;
-                        */
-                        reply(data);
-                    })
+                    .then((data) => reply(data))
                     .catch((error) => reply(error));
             }
         },
         {
             method: 'POST',
-            path: '/api/movies/add',
+            path: '/api/movies',
             config: {
+                payload: {
+                    output: 'stream',
+                    parse: true,
+                    allow: 'multipart/form-data'
+                },
                 pre: [
                     {
                         method(request, reply) {
@@ -85,7 +85,14 @@ exports.register = (server, options, next) => {
                                     title: Joi.string().required().label('title'),
                                     year: Joi.number().min(1900).max(2050).required().label('year'),
                                     imdbId: Joi.string().required().label('imdbId'),
-                                    languageCode: Joi.string(2).required().label('languageCode')
+                                    languageCode: Joi.string(2).required().label('languageCode'),
+                                    /*
+                                    poster: Joi.object({
+                                        'content-disposition' : Joi.string().required(),
+                                        'content-type' : Joi.string().valid(['image/jpeg']).required()
+                                    }).required()
+                                    */
+                                    poster: Joi.object()
                                 }, request.i18n)
                                 .then(() => reply())
                                 .catch((errors) => reply(errors));
@@ -108,9 +115,9 @@ exports.register = (server, options, next) => {
 
                                     reply(Boom.notAcceptable(null, {
                                         imdbId: request.i18n.__('imdbid.registered')
-                                    })).takeover();
+                                    }));
                                 })
-                                .catch((err) => reply(err).takeover());
+                                .catch((err) => reply(err));
                         }
                     },
                     {
@@ -128,12 +135,40 @@ exports.register = (server, options, next) => {
                                     if (data === undefined || data === null) {
                                         reply(Boom.notAcceptable(null, {
                                             languageCode: request.i18n.__('languageCode.invalid')
-                                        })).takeover();
+                                        }));
                                     }
 
                                     reply(data._id);
                                 })
-                                .catch((err) => reply(err).takeover());
+                                .catch((err) => reply(err));
+                        }
+                    },
+                    {
+                        assign: 'poster',
+                        method(request, reply) {
+
+                            const { payload } = request;
+
+                            if (payload.poster) {
+                                const { directory } = server.settings.app.config.uploads;
+                                const type = payload.poster.hapi.headers['content-type'];
+                                const name = `${ShortId.generate()}.${Mime.extension(type)}`;
+                                const path = Path.join(directory, name);
+                                const file = Fs.createWriteStream(path);
+
+                                file.on('error', (err) => console.error(err));
+
+                                payload.poster.pipe(file);
+
+                                payload.poster.on('end', (err) => {
+
+                                    if (err) {
+                                        throw err;
+                                    }
+
+                                    reply(name);
+                                });
+                            }
                         }
                     }
                 ]
@@ -146,6 +181,7 @@ exports.register = (server, options, next) => {
                     imdbId
                 } = request.payload;
                 const language = request.pre.languageId;
+                const { poster } = request.pre;
                 const models = request.server.plugins['plugins/mongoose'].models;
                 const movie = new models.Movie();
 
@@ -153,28 +189,13 @@ exports.register = (server, options, next) => {
                     title,
                     year,
                     imdbId,
-                    language
+                    language,
+                    poster
                 });
 
                 return movie.save()
                     .then(() => reply(movie))
                     .catch((err) => reply(err));
-            }
-        },
-        {
-            method: 'POST',
-            path: '/api/movies/omdbapi',
-            config: {
-                handler(request, reply) {
-
-                    const s = request.query.criteria;
-                    const findMovieByName = request.server.plugins['plugins/omdbapi'].findMovieByName;
-
-                    return findMovieByName(s).then((json) => {
-
-                        return reply(json);
-                    }).catch((err) => reply(err));
-                }
             }
         }
     ]);

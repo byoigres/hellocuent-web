@@ -12,8 +12,6 @@ internals.validate = (value, schema, i18n) => {
     });
 
     if (result.error) {
-        console.log('Request requestValidation');
-        console.log(JSON.stringify(result, null, 2));
         const errors = {};
 
         result.error.details.forEach((error) => {

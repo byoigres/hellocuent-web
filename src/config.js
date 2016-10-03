@@ -1,5 +1,6 @@
 'use strict';
 const Confidence = require('confidence');
+const Path = require('path');
 
 const criteria = {
     env: process.env.NODE_ENV
@@ -18,6 +19,10 @@ const manifest = {
         cache: {
             uri: 'mongodb://172.17.0.2',
             partition: 'cache'
+        },
+        app: {
+            uri: 'mongodb://172.17.0.2',
+            partition: 'hellocuent'
         }
     },
     assets: {
@@ -34,7 +39,7 @@ const manifest = {
         production: {}
     },
     uploads: {
-        directory: __dirname + '\\public\\images\\'
+        directory: Path.join(__dirname, 'public/images')
     }
 };
 
