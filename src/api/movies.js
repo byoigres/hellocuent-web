@@ -71,6 +71,10 @@ exports.register = (server, options, next) => {
             method: 'POST',
             path: '/api/movies',
             config: {
+                auth: {
+                    mode: 'required',
+                    strategy: 'strategy-jwt'
+                },
                 payload: {
                     output: 'stream',
                     parse: true,

@@ -29,13 +29,21 @@ exports.register = (server, options, next) => {
         }
 
         const contentType = request.raw.req.headers['content-type'];
-
+        /*
+        console.log(`response.data: ${JSON.stringify(response.data)}`);
+        console.log(`response.isBoom: ${response.isBoom}`);
+        console.log(`response.isBoom: ${JSON.stringify(response.output.payload)}`);
+        */
         if (!response.isBoom && contentType && contentType.match(/application\/json/)) {
             return reply.continue();
         }
 
         if (response.isBoom /*&& response.data.name === 'ValidationError'*/) {
             // response.output.payload.message = 'Custom Message';
+            if (response.data === null) {
+                return reply.continue();
+            }
+
             if (typeof response.data === 'string') {
                 response.output.payload = {
                     error: {
