@@ -188,13 +188,15 @@ exports.register = (server, options, next) => {
                 const { poster } = request.pre;
                 const models = request.server.plugins['plugins/mongoose'].models;
                 const movie = new models.Movie();
+                const createdBy = request.auth.credentials.id;
 
                 movie.set({
                     title,
                     year,
                     imdbId,
                     language,
-                    poster
+                    poster,
+                    createdBy
                 });
 
                 return movie.save()

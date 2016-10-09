@@ -4,6 +4,7 @@ const Mongoose = require('mongoose');
 const Schema = Mongoose.Schema;
 
 exports.register = (plugin, opts, next) => {
+
     const config = plugin.settings.app.config.db.app;
     const mongoose = Mongoose.connect(`${config.uri}/${config.partition}`);
 
@@ -52,6 +53,9 @@ exports.register = (plugin, opts, next) => {
             type: Schema.Types.ObjectId, ref: 'translation'
         }],
         poster: String,
+        createdBy: {
+            type: Schema.Types.ObjectId, ref: 'user'
+        },
         createdAt: { type: Date, default: Date.now },
         updatedAt: { type: Date, default: Date.now }
     });
