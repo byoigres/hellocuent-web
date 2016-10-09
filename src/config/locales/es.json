@@ -35,5 +35,9 @@
 	"confirmPassword.any.empty": "confirmPassword.any.empty",
 	"name.any.required": "name.any.required",
 	"language.any.empty": "language.any.empty",
-	"language.string.length": "language.string.length"
+	"language.string.length": "language.string.length",
+	"poster.object.base": "poster.object.base",
+	"email.any.empty": "email.any.empty",
+	"email.string.email": "email.string.email",
+	"name.any.empty": "name.any.empty"
 }
