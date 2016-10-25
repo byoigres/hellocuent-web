@@ -25,8 +25,8 @@
 	"username.any.required": "Debe especificar un nombre de usuario",
 	"password.any.required": "Debe especificar una contraseña",
 	"user.notFound": "Usuario no encontrado",
-	"username.any.empty": "username.any.empty",
-	"password.any.empty": "password.any.empty",
+	"username.any.empty": "Debe especificar una usuario",
+	"password.any.empty": "Debe especificar una contraseña",
 	"value.object.base": "value.object.base",
 	"password.string.max": "password.string.max",
 	"confirmPassword.any.required": "confirmPassword.any.required",
@@ -39,5 +39,7 @@
 	"poster.object.base": "poster.object.base",
 	"email.any.empty": "email.any.empty",
 	"email.string.email": "email.string.email",
-	"name.any.empty": "name.any.empty"
+	"name.any.empty": "name.any.empty",
+	"languageId.string.length": "languageId.string.length",
+	"languageId.any.required": "languageId.any.required"
 }

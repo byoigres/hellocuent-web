@@ -8,9 +8,17 @@ module.exports = [
             handler(request, reply) {
 
                 const models = request.server.plugins['plugins/mongoose'].models;
+                const { exclude } = request.query;
+                const criteria = {};
+
+                if (exclude) {
+                    criteria.code = {
+                        $ne: exclude
+                    };
+                }
 
                 models.Language
-                    .find({}, {
+                    .find(criteria, {
                         _id: false,
                         __v: false,
                         updatedAt: false,

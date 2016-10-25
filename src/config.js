@@ -18,10 +18,14 @@ const manifest = {
     db: {
         cache: {
             uri: 'mongodb://172.17.0.2',
-            partition: 'cache'
+            // uri: 'mongodb://apiclient:B1f72P_RrywXnvdRrkeDQnwOA@ds053186.mlab.com:53186',
+            //partition: 'ellocuent'
+            partition: 'hellocuent'
         },
         app: {
             uri: 'mongodb://172.17.0.2',
+            // uri: 'mongodb://apiclient:B1f72P_RrywXnvdRrkeDQnwOA@ds053186.mlab.com:53186',
+            //partition: 'ellocuent'
             partition: 'hellocuent'
         }
     },

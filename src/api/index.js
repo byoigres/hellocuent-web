@@ -10,9 +10,22 @@ exports.register = (server, options, next) => {
         {
             method: 'GET',
             path: '/api',
+            /*config: {
+                auth: {
+                    mode: 'required',
+                    strategy: 'strategy-jwt'
+                }
+            },*/
             handler(request, reply) {
 
-                reply();
+                const models = request.server.plugins['plugins/mongoose'].models;
+
+                //reply(Object.keys(models));
+                models
+                    .LanguageTranslation.find({})
+                    .exec()
+                    .then((languages) => reply(languages))
+                    .catch((err) => reply(err));
             }
         }
     ]);

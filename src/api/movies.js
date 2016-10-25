@@ -50,7 +50,7 @@ exports.register = (server, options, next) => {
                     .populate('language', '-_id name code')
                     .populate({
                         path: 'translations',
-                        select: 'title country language description innerTranslations',
+                        select: 'title country language description languageTranslations',
                         populate: [
                             {
                                 path: 'country',
@@ -61,7 +61,7 @@ exports.register = (server, options, next) => {
                                 select: '-_id code name'
                             },
                             {
-                                path: 'innerTranslations',
+                                path: 'languageTranslations',
                                 select: 'title language'
                             }
                         ]

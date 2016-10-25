@@ -6,6 +6,29 @@ exports.register = (server, options, next) => {
 
     server.route([
         {
+            method: 'GET',
+            path: '/api/translation/{translationId}',
+            handler(request, reply) {
+
+                const models = request.server.plugins['plugins/mongoose'].models;
+                const { translationId } = request.params;
+
+                models.Translation.findOne({
+                    _id: translationId
+                }, {
+                    __v: false,
+                    updatedAt: false,
+                    createdAt: false
+                })
+                .populate('country', '-_id code name')
+                .populate('language', '-_id code name')
+                .populate('languageTranslations', 'title language')
+                .exec()
+                .then((data) => reply(data))
+                .catch((error) => reply(error));
+            }
+        },
+        {
             method: 'POST',
             path: '/api/translation',
             config: {
@@ -174,6 +197,39 @@ exports.register = (server, options, next) => {
                         });
                     })
                     .catch((err) => reply(err));
+            }
+        },
+        {
+            method: 'POST',
+            path: '/api/translation/language',
+            config: {
+                pre: [
+                    {
+                        assign: 'languageId',
+                        method(request, reply) {
+
+                            server.methods
+                                .requestValidation(request.payload, {
+                                    translationId: Joi.string().length(24).required().label('translationId'),
+                                    title: Joi.string().max(80).required().label('title')
+                                }, request.i18n)
+                                .then(() => reply())
+                                .catch((errors) => reply(errors));
+                        }
+                    }
+                ]
+            },
+            handler(request, reply) {
+
+                const models = request.server.plugins['plugins/mongoose'].models;
+                const { translationId, title } = request.payload;
+
+                const translation = new models.LanguageTranslations();
+
+                // translation.set({});
+                // return translation.save();
+
+                reply({ translationId, title });
             }
         }
     ]);

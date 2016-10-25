@@ -38,8 +38,8 @@ exports.register = (plugin, opts, next) => {
             type: Schema.Types.ObjectId, ref: 'language'
         },
         description: { type: String, default: '' },
-        innerTranslations: [{
-            type: Schema.Types.ObjectId, ref: 'innerTranslation'
+        languageTranslations: [{
+            type: Schema.Types.ObjectId, ref: 'languageTranslation'
         }],
         createdAt: { type: Date, default: Date.now },
         updatedAt: { type: Date, default: Date.now }
@@ -72,7 +72,7 @@ exports.register = (plugin, opts, next) => {
         updatedAt: { type: Date, default: Date.now }
     });
 
-    schemas.innerTranslation = new Schema({
+    schemas.languageTranslation = new Schema({
         language: {
             type: Schema.Types.ObjectId, ref: 'language'
         },
@@ -88,7 +88,7 @@ exports.register = (plugin, opts, next) => {
 
     models.Translation = mongoose.model('translation', schemas.translation);
 
-    models.InnerTranslation =  mongoose.model('innerTranslation', schemas.innerTranslation);
+    models.LanguageTranslation =  mongoose.model('languageTranslation', schemas.languageTranslation);
 
     models.Movie = mongoose.model('movie', schemas.movie);
 
