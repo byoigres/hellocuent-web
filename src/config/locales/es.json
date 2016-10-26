@@ -41,5 +41,9 @@
 	"email.string.email": "email.string.email",
 	"name.any.empty": "name.any.empty",
 	"languageId.string.length": "languageId.string.length",
-	"languageId.any.required": "languageId.any.required"
+	"languageId.any.required": "languageId.any.required",
+	"translationId.any.required": "translationId.any.required",
+	"languageId.object.allowUnknown": "languageId.object.allowUnknown",
+	"description.any.required": "description.any.required",
+	"translationId.object.allowUnknown": "translationId.object.allowUnknown"
 }

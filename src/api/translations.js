@@ -223,13 +223,31 @@ exports.register = (server, options, next) => {
 
                 const models = request.server.plugins['plugins/mongoose'].models;
                 const { translationId, title } = request.payload;
+                const translation = new models.LanguageTranslation();
+                const language = '57e216a05d9d3724e0e00068';
 
-                const translation = new models.LanguageTranslations();
+                translation.set({
+                    language,
+                    title
+                });
 
-                // translation.set({});
-                // return translation.save();
+                return translation.save()
+                    .then(() => {
 
-                reply({ translationId, title });
+                        models.Translation.findByIdAndUpdate(translationId, {
+                            $push: { languageTranslations: translation._id }
+                        }, {
+                            safe: true,
+                            upsert: true
+                        }, (err) => {
+
+                            if (err) {
+                                return reply(err);
+                            }
+
+                            reply(translation._id);
+                        });
+                    });
             }
         }
     ]);
