@@ -56,6 +56,7 @@ exports.register = (server, options, next) => {
                                     updatedAt: false,
                                     createdAt: false
                                 })
+                                .populate('language', '-_id code name')
                                 .exec()
                                 .then((user) => {
 
@@ -71,7 +72,8 @@ exports.register = (server, options, next) => {
                                         id: user._id,
                                         username: user.username,
                                         email: user.email,
-                                        name: user.name
+                                        name: user.name,
+                                        language: user.language
                                     });
                                 })
                                 .catch((err) => reply(err));
@@ -87,8 +89,10 @@ exports.register = (server, options, next) => {
                     const sessionData = {
                         sid,
                         id: user.id,
-                        username: user.username
+                        username: user.username,
+                        language: user.language.code
                     };
+                    console.log('sessionData', sessionData);
                     const token = createToken(sid, sessionData);
 
                     request.server.app.cache.set(sid, sessionData, 0, (err) => {

@@ -68,6 +68,9 @@ exports.register = (plugin, opts, next) => {
         email: String,
         name: String,
         password: String,
+        language: {
+            type: Schema.Types.ObjectId, ref: 'language'
+        },
         createdAt: { type: Date, default: Date.now },
         updatedAt: { type: Date, default: Date.now }
     });
