@@ -32,6 +32,18 @@ const manifest = {
         }
     }],
     registrations: [
+        {
+            plugin: {
+                register: 'good',
+                options: {
+                    reporters: {
+                        console: [{
+                            module: 'good-console'
+                        }, 'stdout']
+                    }
+                }
+            }
+        },
         { plugin: 'inert' },
         { plugin: 'vision' },
         {
