@@ -112,8 +112,6 @@ exports.register = (plugin, opts, next) => {
         };
     });
 
-    plugin.expose('models', models);
-
     plugin.log(['mongoose-models', 'info'], 'Models area added');
 
     return next();

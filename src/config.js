@@ -1,32 +1,37 @@
 'use strict';
 const Confidence = require('confidence');
 const Path = require('path');
+const MongodbUri = require('mongodb-uri');
 
 const criteria = {
     env: process.env.NODE_ENV
 };
 
 const manifest = {
-    $meta: 'Emojite Web-API Configuration',
+    $meta: 'Web-API Configuration',
     server: {
         api: {
-            host: 'localhost',
-            port: 7001,
+            host: process.env.API_HOST,
+            port: process.env.API_PORT,
             labels: ['web-api']
         }
     },
     db: {
         cache: {
-            uri: 'mongodb://172.17.0.2',
-            // uri: 'mongodb://apiclient:B1f72P_RrywXnvdRrkeDQnwOA@ds053186.mlab.com:53186',
-            //partition: 'ellocuent'
-            partition: 'hellocuent'
+            uri: MongodbUri.format({
+                hosts: [{
+                    host: process.env.MONGO_HOST
+                }]
+            }),
+            partition: process.env.MONGO_PARTITION
         },
         app: {
-            uri: 'mongodb://172.17.0.2',
-            // uri: 'mongodb://apiclient:B1f72P_RrywXnvdRrkeDQnwOA@ds053186.mlab.com:53186',
-            //partition: 'ellocuent'
-            partition: 'hellocuent'
+            uri: MongodbUri.format({
+                hosts: [{
+                    host: process.env.MONGO_HOST
+                }]
+            }),
+            partition: process.env.MONGO_PARTITION
         }
     },
     assets: {
@@ -41,6 +46,27 @@ const manifest = {
             }
         },
         production: {}
+    },
+    routeValidations: {
+        options: {
+            abortEarly: false
+        },
+        failAction: function (request, reply, source, error) {
+
+            if (request.i18n && error && error.data && error.data.isJoi) {
+
+                error.data.details.forEach((item) => {
+
+                    const field = item.context.key;
+
+                    item.message = request.i18n.__(`${field}.${item.type}`);
+                });
+
+                return reply(error);
+            }
+
+            reply();
+        }
     },
     uploads: {
         directory: Path.join(__dirname, 'public/images')

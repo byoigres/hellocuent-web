@@ -27,5 +27,5 @@ exports.register = (server, options, next) => {
 };
 
 exports.register.attributes = {
-    name: 'plugins/public'
+    name: 'modules/public'
 };

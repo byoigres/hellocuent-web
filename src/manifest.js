@@ -26,7 +26,10 @@ const manifest = {
     connections: [{
         host: Config.get('/server/api/host'),
         port: Config.get('/server/api/port'),
-        labels: Config.get('/server/api/labels')
+        labels: Config.get('/server/api/labels'),
+        routes: {
+            validate: Config.get('/routeValidations')
+        }
     }],
     registrations: [
         { plugin: 'inert' },
@@ -51,7 +54,7 @@ const manifest = {
                 register: 'hapi-i18n',
                 options: {
                     locales: ['es', 'en'],
-                    directory: `${__dirname}/config/locales`
+                    directory: `${__dirname}/resources/locales`
                 }
             }
         },
@@ -60,31 +63,28 @@ const manifest = {
             plugin: './plugins/context'
         },
         {
-            plugin: './plugins/requestValidation'
-        },
-        {
             plugin: './plugins/mongoose'
         },
         {
             plugin: './plugins/session'
         },
         {
-            plugin: './plugins/public'
+            plugin: './modules/public/routes'
         },
         {
-            plugin: './api'
+            plugin: './modules/authorization/routes'
         },
         {
-            plugin: './api/auth'
+            plugin: './modules/movies/routes'
         },
         {
-            plugin: './api/movies'
+            plugin: './modules/countries/routes'
         },
         {
-            plugin: './api/countries'
+            plugin: './modules/translations/routes'
         },
         {
-            plugin: './api/translations'
+            plugin: './modules/users/routes'
         }
     ]
 };

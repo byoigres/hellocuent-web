@@ -45,5 +45,6 @@
 	"translationId.any.required": "translationId.any.required",
 	"languageId.object.allowUnknown": "languageId.object.allowUnknown",
 	"description.any.required": "description.any.required",
-	"translationId.object.allowUnknown": "translationId.object.allowUnknown"
+	"translationId.object.allowUnknown": "translationId.object.allowUnknown",
+	"RegisterUserAccount.UsernameAlreadyExists": "RegisterUserAccount.UsernameAlreadyExists"
 }

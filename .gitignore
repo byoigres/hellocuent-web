@@ -1,6 +1,7 @@
 node_modules
 *.log
 src/public/static
-src/public/images/*.jpg
+src/public/images/*.jpeg
 src/views/**/*.js
 /.project
+.env

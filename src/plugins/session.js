@@ -14,12 +14,7 @@ exports.register = (server, options, next) => {
         key: 'NeverShareYourSecret',
         validateFunc: (decoded, request, callback) => {
 
-            console.log('>>>>>>>>>>>>>>>>>>>>>>>>> decoded\n\n', decoded, '\n\n>>>>>>>>>>>>>>>>>>>>>>>>>\n');
-
             cache.get(decoded.sid, (err, cached) => {
-
-                console.log('>>>>>>>>>>>>>>>>>>>>>>>>> cached err\n\n', err, '\n\n>>>>>>>>>>>>>>>>>>>>>>>>>\n');
-                console.log('>>>>>>>>>>>>>>>>>>>>>>>>> cached\n\n', cached, '\n\n>>>>>>>>>>>>>>>>>>>>>>>>>\n');
 
                 if (err) {
                     return callback(err, false);

@@ -4,7 +4,9 @@
         "react"
     ],
     "rules": {
-        "no-console": 0
+        "no-console": 0,
+        "hapi/hapi-scope-start": 0,
+        "hapi/no-arrowception": 0
     },
     "ecmaFeatures": {
         "jsx": true

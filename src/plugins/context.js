@@ -29,11 +29,7 @@ exports.register = (server, options, next) => {
         }
 
         const contentType = request.raw.req.headers['content-type'];
-        /*
-        console.log(`response.data: ${JSON.stringify(response.data)}`);
-        console.log(`response.isBoom: ${response.isBoom}`);
-        console.log(`response.isBoom: ${JSON.stringify(response.output.payload)}`);
-        */
+
         if (!response.isBoom && contentType && contentType.match(/application\/json/)) {
             return reply.continue();
         }
@@ -52,9 +48,15 @@ exports.register = (server, options, next) => {
                 };
             }
             else {
+                const messages = {};
+
+                response.data.details.map((item) => {
+                    messages[item.context.key] = item.message;
+                });
+
                 response.output.payload = {
                     error: {
-                        messages: response.data
+                        messages
                     }
                 };
             }
