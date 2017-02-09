@@ -9,6 +9,6 @@ Composer((composerErr, server) => {
     }
 
     server.start()
-        .then(() => console.log(`Server started at ${server.info.uri}`))
-        .catch((err) => console.log(err));
+        .then(() => server.log(['hellocuent-web', 'info'], `Server started at ${server.info.uri}`))
+        .catch((err) => server.log(['hellocuent-web', 'info'], err));
 });

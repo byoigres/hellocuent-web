@@ -8,6 +8,13 @@ exports.register = (plugin, opts, next) => {
     const config = plugin.settings.app.config.db.app;
     const mongoose = Mongoose.connect(`${config.uri}/${config.partition}`);
 
+    mongoose.connection.on('error', (e) => (
+        plugin.log(['mongoose-models', 'error'], e)
+    ));
+    mongoose.connection.once('open',  () => (
+        plugin.log(['mongoose-models', 'info'], 'Mongodb connection established.')
+    ));
+
     const models = {};
     const schemas = {};
 
@@ -112,7 +119,7 @@ exports.register = (plugin, opts, next) => {
         };
     });
 
-    plugin.log(['mongoose-models', 'info'], 'Models area added');
+    plugin.log(['mongoose-models', 'info'], 'Mongoose models added');
 
     return next();
 };
