@@ -3,7 +3,20 @@
 const Joi = require('joi');
 const Boom = require('boom');
 const Bcrypt = require('bcryptjs');
+const Uuid = require('uuid');
+const Jwt = require('jsonwebtoken');
 const Models = require('./models');
+
+// THIS IS TEMPORARY
+// THIS IS TEMPORARY
+// THIS IS TEMPORARY
+const createToken = (sid, data) => Jwt.sign(data, 'NeverShareYourSecret', {
+    algorithm: 'HS256',
+    expiresIn: '1h'
+});
+// THIS IS TEMPORARY
+// THIS IS TEMPORARY
+// THIS IS TEMPORARY
 
 exports.login = {
     auth: {
@@ -58,7 +71,7 @@ exports.login = {
             username: user.username,
             language: user.language.code
         };
-        console.log('sessionData', sessionData);
+
         const token = createToken(sid, sessionData);
 
         request.server.app.cache.set(sid, sessionData, 0, (err) => {
@@ -100,26 +113,26 @@ exports.register = {
 
                 const { username, email } = request.payload;
 
-                Models.findUserByEmailOrUsername(email, username)
+                return Models.findUserByEmailOrUsername(email, username)
                     .then((data) => {
-                        console.log('AAA');
+
                         if (!data) {
-                            return reply();
+                            return;
                         }
-                        console.log('BBB');
+
                         if (data.username === username) {
-                            return reply(Boom.notAcceptable(null, {
+                            return Boom.notAcceptable(null, {
                                 username: request.i18n.__('RegisterUserAccount.UsernameAlreadyExists')
-                            }));
+                            });
                         }
-                        console.log('CCC');
+
                         if (data.email === email) {
-                            return reply(Boom.notAcceptable(null, {
+                            return Boom.notAcceptable(null, {
                                 email: request.i18n.__('RegisterUserAccount.EmailAlreadyExists')
-                            }));
+                            });
                         }
-                        console.log('DDD');
                     })
+                    .then(() => reply())
                     .catch((err) => reply(err));
             }
         },

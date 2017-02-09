@@ -2,15 +2,15 @@
 
 const Mongoose = require('mongoose');
 
-exports.validateCredentialsByEmailOrUsernameAndPassword = (emailOrUsermane, password) => {
+exports.validateCredentialsByEmailOrUsernameAndPassword = (username, password) => {
 
     const UserModel = Mongoose.model('user');
 
     return UserModel
         .findOne({
             $or: [
-                { emailOrUsermane },
-                { email: emailOrUsermane }
+                { username },
+                { email: username }
             ]
         }, {
             __v: false,
