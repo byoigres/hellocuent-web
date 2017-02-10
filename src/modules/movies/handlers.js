@@ -1,6 +1,10 @@
 'use strict';
 
 const Joi = require('joi');
+const ShortId = require('shortId');
+const Mime = require('mime-types');
+const Path = require('path');
+const Fs = require('fs');
 const Models = require('./models');
 
 exports.listMovies = {
@@ -98,7 +102,7 @@ exports.addMovie = {
                 const { payload } = request;
 
                 if (payload.poster) {
-                    const { directory } = server.settings.app.config.uploads;
+                    const { directory } = request.server.settings.app.config.uploads;
                     const type = payload.poster.hapi.headers['content-type'];
                     const name = `${ShortId.generate()}.${Mime.extension(type)}`;
                     const path = Path.join(directory, name);
@@ -139,7 +143,7 @@ exports.addMovie = {
             poster,
             createdBy
         )
-            .then(() => reply(movie))
+            .then((movie) => reply(movie))
             .catch((err) => reply(err));
     }
 };

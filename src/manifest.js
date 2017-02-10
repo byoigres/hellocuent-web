@@ -93,6 +93,9 @@ const manifest = {
             plugin: './modules/countries/routes'
         },
         {
+            plugin: './modules/languages/routes'
+        },
+        {
             plugin: './modules/translations/routes'
         },
         {
