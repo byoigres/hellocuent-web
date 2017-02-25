@@ -2,7 +2,7 @@
 
 const Mongoose = require('mongoose');
 
-exports.getAllLanguages = (criteria) => Mongoose.model('languages')
+exports.getAllLanguages = (criteria) => Mongoose.model('language')
     .find(criteria, {
         _id: false,
         __v: false,
