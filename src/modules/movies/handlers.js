@@ -1,7 +1,7 @@
 'use strict';
 
 const Joi = require('joi');
-const ShortId = require('shortId');
+const ShortId = require('shortid');
 const Mime = require('mime-types');
 const Path = require('path');
 const Fs = require('fs');
