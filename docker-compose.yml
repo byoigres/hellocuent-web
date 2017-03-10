@@ -1,0 +1,36 @@
+version: '2'
+services:
+    web:
+        image: node:7.7.1
+        ports:
+            - "7001:7001"
+        volumes:
+            - ./:/opt/deploy/hellocuent-web
+        working_dir: '/opt/deploy/hellocuent-web'
+        command:
+            node ./src/index.js
+        environment:
+            API_HOST: web
+            API_PORT: 7001
+            MONGO_HOST: mongo
+            MONGO_PARTITION: hellocuent
+        networks:
+            - hellocuentnet
+    redis:
+        image: redis:alpine
+        networks:
+            - hellocuentnet
+    mongo:
+        image: mongo:latest
+        ports:
+            - "27017:27017"
+        volumes:
+            - ./data:/data/db
+        networks:
+            - hellocuentnet
+networks:
+    hellocuentnet:
+        driver: "bridge"
+volumes:
+    data:
+        driver: "local"

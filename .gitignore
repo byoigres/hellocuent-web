@@ -4,4 +4,5 @@ src/public/static
 src/public/images/*.jpeg
 src/views/**/*.js
 /.project
+data/
 .env
